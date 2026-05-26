@@ -1,0 +1,342 @@
+:root {
+  --app-bg: #f6f7fb;
+  --card-bg: #ffffff;
+  --text: #1f2330;
+  --text-muted: #6b7280;
+  --border-soft: #eef0f4;
+  --border: #e5e7eb;
+  --border-strong: #d1d5db;
+  --segmented-bg: #f3f4f6;
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-soft: #eef2ff;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-card:
+    0 10px 30px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.04);
+  --transition: 150ms ease;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--app-bg);
+  min-height: 100vh;
+}
+
+#root {
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+  border: none;
+  text-align: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 24px 0;
+  box-sizing: border-box;
+}
+
+.app {
+  width: min(640px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 32px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+.app__header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.app__title {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  color: var(--text);
+}
+
+.app__subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.app__status {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.segmented {
+  display: inline-flex;
+  padding: 4px;
+  gap: 2px;
+  background: var(--segmented-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.segmented__button {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background var(--transition),
+    color var(--transition);
+}
+
+.segmented__button:hover {
+  color: var(--text);
+}
+
+.segmented__button.is-active {
+  background: var(--card-bg);
+  color: var(--accent);
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+.todo-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.todo-list__empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-soft);
+  font-size: 15px;
+  color: var(--text);
+  transition: background var(--transition);
+}
+
+.todo-item:last-child {
+  border-bottom: none;
+}
+
+.todo-item:hover {
+  background: var(--accent-soft);
+}
+
+.todo-item__checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.todo-item__text {
+  flex: 1;
+  user-select: none;
+}
+
+.todo-item.is-completed .todo-item__text {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.input-row__field {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 14px;
+  background: var(--card-bg);
+  color: var(--text);
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.input-row__field::placeholder {
+  color: var(--text-muted);
+}
+
+.input-row__field:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.input-row__error {
+  margin-top: -10px;
+  font-size: 12px;
+  color: #dc2626;
+}
+
+.button {
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.button--primary {
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
+  transition:
+    background var(--transition),
+    transform var(--transition);
+}
+
+.button--primary:hover {
+  background: var(--accent-hover);
+}
+
+.button--primary:active {
+  transform: translateY(1px);
+}
+
+.button--secondary {
+  align-self: flex-start;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 12px;
+}
+
+.button--secondary:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.button--ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid transparent;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 8px;
+}
+
+.button--ghost:hover {
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.button--ghost-danger {
+  background: transparent;
+  color: #dc2626;
+  border: 1px solid transparent;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 8px;
+}
+
+.button--ghost-danger:hover {
+  border-color: rgba(220, 38, 38, 0.35);
+  background: rgba(220, 38, 38, 0.08);
+}
+
+.todo-item__edit-input {
+  flex: 1;
+  min-width: 120px;
+  padding: 7px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 14px;
+  background: var(--card-bg);
+  color: var(--text);
+}
+
+.todo-item__edit-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.todo-item__error {
+  font-size: 12px;
+  color: #dc2626;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --app-bg: #0f1117;
+    --card-bg: #181a22;
+    --text: #e5e7eb;
+    --text-muted: #9ca3af;
+    --border-soft: #232633;
+    --border: #2b2f3d;
+    --border-strong: #3a3f50;
+    --segmented-bg: #1f2230;
+    --accent: #8b85ff;
+    --accent-hover: #a8a4ff;
+    --accent-soft: rgba(139, 133, 255, 0.12);
+    --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@media (max-width: 640px) {
+  #root {
+    padding: 12px 0;
+  }
+  .app {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .segmented {
+    width: 100%;
+  }
+  .segmented__button {
+    flex: 1;
+  }
+}
