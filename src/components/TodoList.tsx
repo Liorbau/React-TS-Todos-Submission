@@ -68,7 +68,9 @@ export const TodoList = ({
                 <input
                   className="todo-item__edit-input"
                   value={editText}
-                  onChange={(event): void => handleEditTextChange(event.target.value)}
+                  onChange={(event): void =>
+                    handleEditTextChange(event.target.value)
+                  }
                   autoFocus
                   aria-invalid={Boolean(editError)}
                   aria-describedby={editError ? "edit-todo-error" : undefined}
@@ -83,7 +85,11 @@ export const TodoList = ({
                   Cancel
                 </button>
                 {editError && (
-                  <span id="edit-todo-error" className="todo-item__error" role="alert">
+                  <span
+                    id="edit-todo-error"
+                    className="todo-item__error"
+                    role="alert"
+                  >
                     {editError}
                   </span>
                 )}
