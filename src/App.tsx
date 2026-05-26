@@ -19,9 +19,11 @@ function App(): JSX.Element {
   const [filter, setFilter] = useState<TodoFilter>("active");
 
   const handleNewTodoTextChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const nextText = e.target.value;
-    setNewTodoText(nextText);
-    if (nextText.trim()) setNewTodoError("");
+    const inputValue = e.target.value;
+    setNewTodoText(inputValue);
+    if (inputValue.trim()) {
+      setNewTodoError("");
+    }
   };
 
   const handleAddTodo = (e: FormEvent<HTMLFormElement>): void => {

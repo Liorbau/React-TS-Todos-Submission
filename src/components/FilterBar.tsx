@@ -13,35 +13,24 @@ export const FilterBar = ({
   onFilterChange,
   filter,
 }: FilterBarProps): JSX.Element => {
-  const isActive = (buttonFilter: TodoFilter): boolean =>
-    filter === buttonFilter;
-  const handleActiveClick = (): void => {
-    onFilterChange("active");
-  };
-  const handleCompletedClick = (): void => {
-    onFilterChange("completed");
-  };
-  const handleAllClick = (): void => {
-    onFilterChange("all");
+  const filters: TodoFilter[] = ["active", "completed", "all"];
+  const formatFilterLabel = (filterOption: TodoFilter): string => {
+    return filterOption.charAt(0).toUpperCase() + filterOption.slice(1);
   };
 
   return (
     <div className="segmented" role="group" aria-label="Filter todos">
-      <button
-        className={buttonClass(isActive("active"))}
-        onClick={handleActiveClick}
-      >
-        Active
-      </button>
-      <button
-        className={buttonClass(isActive("completed"))}
-        onClick={handleCompletedClick}
-      >
-        Completed
-      </button>
-      <button className={buttonClass(isActive("all"))} onClick={handleAllClick}>
-        All
-      </button>
+      {filters.map(
+        (filterOption: TodoFilter): JSX.Element => (
+          <button
+            key={filterOption}
+            className={buttonClass(filter === filterOption)}
+            onClick={(): void => onFilterChange(filterOption)}
+          >
+            {formatFilterLabel(filterOption)}
+          </button>
+        ),
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent, type JSX } from "react";
+import { useState, type JSX } from "react";
 import type { Todo } from "../types/todo.ts";
 
 type TodoListProps = {
@@ -16,36 +16,34 @@ export const TodoList = ({
 }: TodoListProps): JSX.Element => {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editText, setEditText] = useState<string>("");
+  const [editError, setEditError] = useState<string>("");
 
   const startEdit = (id: number, text: string): void => {
     setEditingId(id);
     setEditText(text);
+    setEditError("");
   };
 
   const cancelEdit = (): void => {
     setEditingId(null);
     setEditText("");
+    setEditError("");
+  };
+
+  const handleEditTextChange = (nextText: string): void => {
+    setEditText(nextText);
+    if (nextText.trim()) {
+      setEditError("");
+    }
   };
 
   const saveEdit = (id: number): void => {
-    if (!editText.trim()) return;
+    if (!editText.trim()) {
+      setEditError("Todo text cannot be empty");
+      return;
+    }
     updateTodo(id, editText);
     cancelEdit();
-  };
-  const handleTodoToggle = (id: number): void => {
-    toggleComplete(id);
-  };
-  const handleEditTextChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setEditText(e.target.value);
-  };
-  const handleSaveClick = (id: number): void => {
-    saveEdit(id);
-  };
-  const handleStartEdit = (id: number, text: string): void => {
-    startEdit(id, text);
-  };
-  const handleDeleteClick = (id: number): void => {
-    deleteTodo(id);
   };
 
   return (
@@ -63,38 +61,45 @@ export const TodoList = ({
               type="checkbox"
               className="todo-item__checkbox"
               checked={todo.completed}
-              onChange={(): void => handleTodoToggle(todo.id)}
+              onChange={(): void => toggleComplete(todo.id)}
             />
             {editingId === todo.id ? (
               <>
                 <input
                   className="todo-item__edit-input"
                   value={editText}
-                  onChange={handleEditTextChange}
+                  onChange={(event): void => handleEditTextChange(event.target.value)}
                   autoFocus
+                  aria-invalid={Boolean(editError)}
+                  aria-describedby={editError ? "edit-todo-error" : undefined}
                 />
                 <button
                   className="button button--secondary"
-                  onClick={(): void => handleSaveClick(todo.id)}
+                  onClick={(): void => saveEdit(todo.id)}
                 >
                   Save
                 </button>
                 <button className="button button--ghost" onClick={cancelEdit}>
                   Cancel
                 </button>
+                {editError && (
+                  <span id="edit-todo-error" className="todo-item__error" role="alert">
+                    {editError}
+                  </span>
+                )}
               </>
             ) : (
               <>
                 <span className="todo-item__text">{todo.text}</span>
                 <button
                   className="button button--ghost"
-                  onClick={(): void => handleStartEdit(todo.id, todo.text)}
+                  onClick={(): void => startEdit(todo.id, todo.text)}
                 >
                   Edit
                 </button>
                 <button
                   className="button button--ghost-danger"
-                  onClick={(): void => handleDeleteClick(todo.id)}
+                  onClick={(): void => deleteTodo(todo.id)}
                 >
                   Delete
                 </button>

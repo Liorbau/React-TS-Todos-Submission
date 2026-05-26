@@ -113,6 +113,19 @@ describe("useTodos edge cases", (): void => {
     expect(result.current.todos[0]?.text).toBe("Keep me");
   });
 
+  it("keeps todos unchanged when deleting non-existent id", (): void => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(sampleTodos()));
+    const { result } = renderHook(
+      (): ReturnType<typeof useTodos> => useTodos(),
+    );
+
+    act((): void => {
+      result.current.deleteTodo(999);
+    });
+
+    expect(result.current.todos).toEqual(sampleTodos());
+  });
+
   it("handles toggle, delete, and clear completed in sequence", (): void => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(sampleTodos()));
     const { result } = renderHook(

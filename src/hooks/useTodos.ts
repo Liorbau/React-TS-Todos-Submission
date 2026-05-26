@@ -14,7 +14,9 @@ type UseTodosResult = {
 const TODO_STORAGE_KEY = "react-ts-todos.todos";
 
 const getNextIdFromTodos = (todos: Todo[]): number => {
-  if (todos.length === 0) return 1;
+  if (todos.length === 0) {
+    return 1;
+  }
   const maxId = todos.reduce(
     (max: number, todo: Todo): number => (todo.id > max ? todo.id : max),
     0,
@@ -24,7 +26,9 @@ const getNextIdFromTodos = (todos: Todo[]): number => {
 
 const readStoredTodos = (): Todo[] => {
   const raw = localStorage.getItem(TODO_STORAGE_KEY);
-  if (!raw) return [];
+  if (!raw) {
+    return [];
+  }
 
   try {
     const parsed = JSON.parse(raw) as unknown;
@@ -36,9 +40,6 @@ const readStoredTodos = (): Todo[] => {
 
 export const useTodos = (): UseTodosResult => {
   const [todos, setTodos] = useState<Todo[]>(readStoredTodos);
-  const [nextId, setNextId] = useState<number>(() =>
-    getNextIdFromTodos(readStoredTodos()),
-  );
 
   useEffect((): void => {
     localStorage.setItem(TODO_STORAGE_KEY, JSON.stringify(todos));
@@ -46,16 +47,18 @@ export const useTodos = (): UseTodosResult => {
 
   const addTodo = (text: string): void => {
     const trimmedText = text.trim();
-    if (!trimmedText) return;
+    if (!trimmedText) {
+      return;
+    }
 
-    const newTodo: Todo = {
-      id: nextId,
-      text: trimmedText,
-      completed: false,
-    };
-
-    setTodos((prev: Todo[]): Todo[] => [...prev, newTodo]);
-    setNextId((prev: number): number => prev + 1);
+    setTodos((prev: Todo[]): Todo[] => {
+      const newTodo: Todo = {
+        id: getNextIdFromTodos(prev),
+        text: trimmedText,
+        completed: false,
+      };
+      return [...prev, newTodo];
+    });
   };
 
   const toggleComplete = (id: number): void => {
@@ -69,7 +72,9 @@ export const useTodos = (): UseTodosResult => {
 
   const updateTodo = (id: number, newText: string): void => {
     const trimmedText = newText.trim();
-    if (!trimmedText) return;
+    if (!trimmedText) {
+      return;
+    }
 
     setTodos((prev: Todo[]): Todo[] =>
       prev.map(
@@ -103,9 +108,15 @@ export const useTodos = (): UseTodosResult => {
 
 export const visibleTodos = (todos: Todo[], filter: TodoFilter): Todo[] => {
   return todos.filter((todo: Todo): boolean => {
-    if (filter === "all") return true;
-    if (filter === "active") return !todo.completed;
-    if (filter === "completed") return todo.completed;
+    if (filter === "all") {
+      return true;
+    }
+    if (filter === "active") {
+      return !todo.completed;
+    }
+    if (filter === "completed") {
+      return todo.completed;
+    }
 
     // fallback – should never happen if TodoFilter is correct
     return true;
